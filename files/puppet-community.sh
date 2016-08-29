@@ -85,7 +85,6 @@ function configure_puppet() {
   rundir     = /var/run/puppet
   vardir     = /var/lib/puppet
   ssldir     = /var/lib/puppet/ssl
-  modulepath = /etc/puppet/modules
   certname   = "${certname}"
 EOFPUPPETCONF
 
@@ -177,6 +176,7 @@ function provision_puppet() {
 
   if [[ ${PUPPET_SERVICE} == 'present' ]]; then
     puppet resource service puppet ensure=running enable=true
+    puppet agent --enable
   fi
 
   echo $? > $RESULTS_FILE
