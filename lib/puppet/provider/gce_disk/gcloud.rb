@@ -16,6 +16,7 @@ Puppet::Type.type(:gce_disk).provide(:gcloud, :parent => Puppet::Provider::Gclou
   def gcloud_optional_create_args
     {:description => '--description',
      :size => '--size',
-     :image => '--image'}
+     :image => '--image',
+     :type => '--type'}
   end
 end

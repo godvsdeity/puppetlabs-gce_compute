@@ -23,7 +23,10 @@ Puppet::Type.type(:gce_instance).provide(:gcloud, :parent => Puppet::Provider::G
      :network            => '--network',
      :maintenance_policy => '--maintenance-policy',
      :scopes             => '--scopes',
-     :tags               => '--tags'}
+     :tags               => '--tags',
+     :boot_disk_size     => '--boot-disk-size',
+     :boot_disk_type     => '--boot-disk-type',
+     :boot_disk_device_name => '--boot-disk-device-name'}
   end
 
   def puppet_metadata
@@ -37,6 +40,7 @@ Puppet::Type.type(:gce_instance).provide(:gcloud, :parent => Puppet::Provider::G
     args = build_gcloud_args('create') + build_gcloud_flags(gcloud_optional_create_args)
     append_can_ip_forward_args(args, resource)
     append_boot_disk_args(args, resource)
+    append_disk_args(args, resource)
     append_metadata_args(args, resource)
     append_startup_script_args(args, resource)
     gcloud(*args)
@@ -51,6 +55,15 @@ Puppet::Type.type(:gce_instance).provide(:gcloud, :parent => Puppet::Provider::G
     if resource[:boot_disk]
       args << '--disk'
       args << "name=#{resource[:boot_disk]},boot=yes"
+    end
+  end
+
+  def append_disk_args(args, resource)
+    if @resource[:disk].is_a?(Array)
+      resource[:disk].each do |disk|
+        args << '--disk'
+        args << "name=#{disk},mode=rw,boot=no"
+      end
     end
   end
 

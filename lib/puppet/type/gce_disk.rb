@@ -28,6 +28,8 @@ Puppet::Type.newtype(:gce_disk) do
     desc 'An image to apply to the disk.'
   end
 
+  newparam(:type)
+
   validate do
     fail('You must specify a zone for the disk.') unless self[:zone]
   end

@@ -104,6 +104,11 @@ Puppet::Type.newtype(:gce_instance) do
     end
   end
 
+  newparam(:disk)
+  newparam(:boot_disk_size)
+  newparam(:boot_disk_type)
+  newparam(:boot_disk_device_name)
+
   autorequire :gce_disk do
     self[:boot_disk]
   end
