@@ -62,6 +62,7 @@ EOFAPTREPO
   apt-get update
   # Install Puppet from Debian repositories
   apt-get -y install puppet git
+  puppet agent --enablemod
 }
 
 function install_puppet() {
