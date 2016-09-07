@@ -177,6 +177,7 @@ function provision_puppet() {
   if [[ ${PUPPET_SERVICE} == 'present' ]]; then
     puppet resource service puppet ensure=running enable=true
     puppet agent --enable
+    puppet agent -t
   fi
 
   echo $? > $RESULTS_FILE
