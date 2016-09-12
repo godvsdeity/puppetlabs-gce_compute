@@ -38,6 +38,7 @@ Puppet::Type.type(:gce_instance).provide(:gcloud, :parent => Puppet::Provider::G
 
   def create
     args = build_gcloud_args('create') + build_gcloud_flags(gcloud_optional_create_args)
+    append_no_address_args(args, resource)
     append_can_ip_forward_args(args, resource)
     append_boot_disk_args(args, resource)
     append_disk_args(args, resource)
@@ -45,6 +46,10 @@ Puppet::Type.type(:gce_instance).provide(:gcloud, :parent => Puppet::Provider::G
     append_startup_script_args(args, resource)
     gcloud(*args)
     block_for_startup_script(resource)
+  end
+
+  def append_no_address_args(args, resource)
+    args << '--no-address' if resource[:no_address]
   end
 
   def append_can_ip_forward_args(args, resource)
